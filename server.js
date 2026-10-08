@@ -26,6 +26,9 @@ const configuredFrontendOrigins = (process.env.FRONTEND_URL || '')
 
 const allowedOrigins = new Set([
   ...configuredFrontendOrigins,
+  'https://divine-home-sage.vercel.app',
+  'https://divine-home-git-main-new1-c545.vercel.app',
+  'https://divine-home-aphed71yn-new1-c545.vercel.app',
   'https://x19nt9zn-5173.inc1.devtunnels.ms',
   'https://x19nt9zn-5174.inc1.devtunnels.ms',
   'http://localhost:5173',
