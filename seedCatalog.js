@@ -380,17 +380,27 @@ async function seedDatabase() {
     );
     console.log(`✅ Added ${designs.length} design names`);
 
-    // Seed Sample Products
+    // Seed Sample Products (upsert to handle duplicates)
     console.log('🛍️  Seeding sample products...');
-    const products = await Product.insertMany(productsData);
-    console.log(`✅ Added ${products.length} sample products`);
+    let addedCount = 0;
+    for (const productData of productsData) {
+      const result = await Product.updateOne(
+        { sku: productData.sku },
+        { $set: productData },
+        { upsert: true }
+      );
+      if (result.upsertedId) {
+        addedCount++;
+      }
+    }
+    console.log(`✅ Added/Updated ${addedCount} sample products`);
 
     console.log('\n🎉 Database seeded successfully!');
     console.log('\n📊 Summary:');
     console.log(`   Categories: ${categories.length}`);
     console.log(`   Series: ${series.length}`);
     console.log(`   Design Names: ${designs.length}`);
-    console.log(`   Sample Products: ${products.length}`);
+    console.log(`   Sample Products: ${addedCount}`);
 
     process.exit(0);
   } catch (error) {
