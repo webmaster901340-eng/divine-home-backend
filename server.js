@@ -705,6 +705,10 @@ app.put('/api/admin/page-images', verifyJWT, adminLimiter, async (req, res) => {
   }
 });
 
+// Import catalog routes
+const catalogRoutes = require('./routes/catalogRoutes');
+app.use('/api', catalogRoutes);
+
 app.get('/', (req, res) => {
   res.send('Divine Home India MongoDB CMS Backend is running perfectly!');
 });
